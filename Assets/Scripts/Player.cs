@@ -5,23 +5,33 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     private SpriteRenderer spriteRenderer;
-    private float speed = 3f;
+    private Rigidbody2D rb2d;
 
-	void Start () {
+    private float speed = 3f;
+    private Vector2 velocity;
+
+	private void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rb2d = GetComponent<Rigidbody2D>();
 	}
 	
-	void Update () {
+	private void Update () {
         HandleInput();
 	}
 
     private void HandleInput() {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        velocity.x = Input.GetAxis("Horizontal");
+        velocity.y = Input.GetAxis("Vertical");
+    }
 
-        Vector3 pos = transform.position;
-        pos.x += h * speed * Time.deltaTime;
-        pos.y += v * speed * Time.deltaTime;
-        transform.position = pos;
+    private void FixedUpdate() {
+        HandleMovement();
+    }
+
+    private void HandleMovement() {
+        velocity.x *= speed * Time.fixedDeltaTime;
+        velocity.y *= speed * Time.fixedDeltaTime;
+
+        rb2d.MovePosition(rb2d.position + velocity);
     }
 }
