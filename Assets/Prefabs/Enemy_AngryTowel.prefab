@@ -68,6 +68,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa127c6b72eb774bbd0e506a615c502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    id: 1000
+    isAlive: 1
+    battleDataList:
+    - Name: AngryTowel1
+      Health: 1
+      AttackDamage: 1
+    - Name: AngryTowel2
+      Health: 1
+      AttackDamage: 1
 --- !u!212 &212622283155476008
 SpriteRenderer:
   m_ObjectHideFlags: 1

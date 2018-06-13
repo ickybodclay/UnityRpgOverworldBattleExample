@@ -99,6 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5ec6ff92bfaae43b08f02bcd5163fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    overworldData:
+      Position: {x: 0, y: 0}
+    battleDataList:
+    - Name: BobRockhands
+      Health: 10
+      AttackDamage: 1
 --- !u!212 &212141663454571518
 SpriteRenderer:
   m_ObjectHideFlags: 1

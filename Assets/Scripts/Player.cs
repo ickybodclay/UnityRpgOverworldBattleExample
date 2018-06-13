@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,14 @@ public class Player : MonoBehaviour {
 
     private float speed = 3f;
     private Vector2 velocity;
+
+    [Serializable]
+    public class Data {
+        public OverworldData overworldData;
+        public List<BattleData> battleDataList;
+    }
+
+    public Data data;
 
 	private void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -22,6 +31,13 @@ public class Player : MonoBehaviour {
     private void HandleInput() {
         velocity.x = Input.GetAxis("Horizontal");
         velocity.y = Input.GetAxis("Vertical");
+
+        if (velocity.x < 0f && !spriteRenderer.flipX) {
+            spriteRenderer.flipX = true;
+        }
+        else if (velocity.x > 0f && spriteRenderer.flipX) {
+            spriteRenderer.flipX = false;
+        }
     }
 
     private void FixedUpdate() {
@@ -33,5 +49,20 @@ public class Player : MonoBehaviour {
         velocity.y *= speed * Time.fixedDeltaTime;
 
         rb2d.MovePosition(rb2d.position + velocity);
+    }
+
+    public void SaveOverworldData() {
+        data.overworldData.Position = transform.position;
+    }
+
+    public void LoadOverworldData(Data data) {
+        if (data != null) {
+            this.data = data;
+            RestoreOverworldPosition();
+        }
+    }
+
+    private void RestoreOverworldPosition() {
+        transform.position = data.overworldData.Position;
     }
 }
