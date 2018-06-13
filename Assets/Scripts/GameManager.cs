@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
     private void LoadBattle() {
         Debug.Log(">> Loading Battle...");
         BattleManager battleManager = GameObject.FindObjectOfType<BattleManager>();
-        battleManager.Spawn(currentPlayerData, enemyDataDictionary[currentEnemyId]);
+        battleManager.StartBattle(currentPlayerData, enemyDataDictionary[currentEnemyId]);
     }
 
     public void StartBattle(Player.Data playerData, Enemy.Data enemyData) {

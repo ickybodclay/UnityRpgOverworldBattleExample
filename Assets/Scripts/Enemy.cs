@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour, IPersistable<Enemy.Data> {
     [Serializable]
     public class Data {
         public int id;
-        public bool isAlive;
+        public bool isActive;
         public OverworldData overworldData;
         public List<BattleData> battleDataList;
     }
@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour, IPersistable<Enemy.Data> {
 
     private void RestoreOverworldState() {
         transform.position = data.overworldData.Position;
-        if (!data.isAlive) {
+        if (!data.isActive) {
             Destroy(gameObject);
         }
     }
