@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour {
     private static bool instantiated = false;
 
     private Player.Data currentPlayerData = null;
-    private Enemy.Data currentEnemyData = null;
+    private int currentEnemyId = -1;
+    private readonly Dictionary<int, Enemy.Data> enemyDataDictionary = new Dictionary<int, Enemy.Data>();
+
     private bool hasBattleEnded = false;
 
     private void Awake () {
@@ -42,19 +44,22 @@ public class GameManager : MonoBehaviour {
 
     private void LoadOverworld() {
         Debug.Log(">> Loading Overworld...");
+
         Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
         if (enemies != null) {
             foreach (Enemy enemy in enemies) {
-                enemy.LoadOverworldData(currentEnemyData);
+                Enemy.Data enemyData = enemyDataDictionary.ContainsKey(enemy.data.id)
+                    ? enemyDataDictionary[enemy.data.id]
+                    : null;
+                enemy.LoadData(enemyData);
             }
-            currentEnemyData = null;
         }
 
         if (hasBattleEnded) {
             Debug.Log(">>> Restoring Overworld State After Battle...");
             Player player = GameObject.FindObjectOfType<Player>();
             if (player != null) {
-                player.LoadOverworldData(currentPlayerData);
+                player.LoadData(currentPlayerData);
                 currentPlayerData = null;
             }
             hasBattleEnded = false;
@@ -64,12 +69,13 @@ public class GameManager : MonoBehaviour {
     private void LoadBattle() {
         Debug.Log(">> Loading Battle...");
         BattleManager battleManager = GameObject.FindObjectOfType<BattleManager>();
-        battleManager.Spawn(currentPlayerData, currentEnemyData);
+        battleManager.Spawn(currentPlayerData, enemyDataDictionary[currentEnemyId]);
     }
 
     public void StartBattle(Player.Data playerData, Enemy.Data enemyData) {
         currentPlayerData = playerData;
-        currentEnemyData = enemyData;
+        currentEnemyId = enemyData.id;
+        enemyDataDictionary[currentEnemyId] = enemyData;
         SceneManager.LoadScene("Battle");
     }
     
@@ -83,6 +89,8 @@ public class GameManager : MonoBehaviour {
     }
 
     public Enemy.Data GetEnemyData() {
-        return currentEnemyData;
+        return enemyDataDictionary.ContainsKey(currentEnemyId) 
+            ? enemyDataDictionary[currentEnemyId]
+            : null;
     }
 }

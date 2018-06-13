@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour, IPersistable<Player.Data> {
 
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb2d;
@@ -51,18 +51,18 @@ public class Player : MonoBehaviour {
         rb2d.MovePosition(rb2d.position + velocity);
     }
 
-    public void SaveOverworldData() {
+    public void SaveData() {
         data.overworldData.Position = transform.position;
     }
 
-    public void LoadOverworldData(Data data) {
+    public void LoadData(Data data) {
         if (data != null) {
             this.data = data;
-            RestoreOverworldPosition();
+            RestoreOverworldState();
         }
     }
 
-    private void RestoreOverworldPosition() {
+    private void RestoreOverworldState() {
         transform.position = data.overworldData.Position;
     }
 }

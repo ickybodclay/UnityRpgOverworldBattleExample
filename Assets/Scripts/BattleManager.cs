@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour {
+    private Player.Data playerData;
+    private Enemy.Data enemyData;
+
     public void Spawn(Player.Data playerData, Enemy.Data enemyData) {
+        this.playerData = playerData;
+        this.enemyData = enemyData;
+
         foreach (BattleData data in playerData.battleDataList) {
             Debug.Log("Spawning " + data.Name);
             // TODO spawn players using battle data
@@ -18,7 +24,9 @@ public class BattleManager : MonoBehaviour {
     }
 
     public void EndBattle() {
-        GameManager.Instance.GetEnemyData().isAlive = false;
+        // FOR TESTING ONLY
+        enemyData.isAlive = false;
+
         GameManager.Instance.EndBattle();
     }
 }

@@ -71,11 +71,10 @@ MonoBehaviour:
   data:
     id: 1000
     isAlive: 1
+    overworldData:
+      Position: {x: 0, y: 0}
     battleDataList:
     - Name: AngryTowel1
-      Health: 1
-      AttackDamage: 1
-    - Name: AngryTowel2
       Health: 1
       AttackDamage: 1
 --- !u!212 &212622283155476008
