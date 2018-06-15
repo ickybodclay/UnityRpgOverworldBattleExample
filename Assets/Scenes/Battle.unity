@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 161465645}
   - component: {fileID: 161465644}
   m_Layer: 5
-  m_Name: EnemyStatusPanel
+  m_Name: PlayerStatusPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2265,12 +2265,12 @@ Prefab:
         type: 2}
       propertyPath: playerStatusPanel
       value: 
-      objectReference: {fileID: 1745356836}
+      objectReference: {fileID: 161465642}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: enemyStatusPanel
       value: 
-      objectReference: {fileID: 161465642}
+      objectReference: {fileID: 1745356836}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: nameText
@@ -2330,42 +2330,42 @@ Prefab:
         type: 2}
       propertyPath: playerStatusBars.Array.data[0]
       value: 
-      objectReference: {fileID: 967780047}
+      objectReference: {fileID: 346496361}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: playerStatusBars.Array.data[1]
       value: 
-      objectReference: {fileID: 205559174}
+      objectReference: {fileID: 243097818}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: playerStatusBars.Array.data[2]
       value: 
-      objectReference: {fileID: 1569078347}
+      objectReference: {fileID: 1403433696}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: playerStatusBars.Array.data[3]
       value: 
-      objectReference: {fileID: 1280118973}
+      objectReference: {fileID: 76696325}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: enemyStatusBars.Array.data[0]
       value: 
-      objectReference: {fileID: 346496361}
+      objectReference: {fileID: 967780047}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: enemyStatusBars.Array.data[1]
       value: 
-      objectReference: {fileID: 243097818}
+      objectReference: {fileID: 205559174}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: enemyStatusBars.Array.data[2]
       value: 
-      objectReference: {fileID: 1403433696}
+      objectReference: {fileID: 1569078347}
     - target: {fileID: 114852391682748798, guid: 688ae7e45b7d56e4399d3489a708a6fa,
         type: 2}
       propertyPath: enemyStatusBars.Array.data[3]
       value: 
-      objectReference: {fileID: 76696325}
+      objectReference: {fileID: 1280118973}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 688ae7e45b7d56e4399d3489a708a6fa, type: 2}
   m_IsPrefabParent: 0
@@ -2856,7 +2856,7 @@ GameObject:
   - component: {fileID: 1745356839}
   - component: {fileID: 1745356838}
   m_Layer: 5
-  m_Name: PlayerStatusPanel
+  m_Name: EnemyStatusPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
