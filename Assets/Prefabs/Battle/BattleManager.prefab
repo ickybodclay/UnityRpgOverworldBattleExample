@@ -51,4 +51,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6713839b1b9b85e41a309a6b438f7b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleUI: {fileID: 0}
+  interactPanel: {fileID: 0}
+  playerStatusPanel: {fileID: 0}
+  playerStatusBars: []
+  enemyStatusPanel: {fileID: 0}
+  enemyStatusBars: []
+  nameText: {fileID: 0}
+  attackButton: {fileID: 0}
   endBattleUI: {fileID: 0}
+  playerSlots: []
+  enemySlots: []

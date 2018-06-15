@@ -104,8 +104,10 @@ MonoBehaviour:
       Position: {x: 0, y: 0}
     battleDataList:
     - Name: BobRockhands
-      Health: 10
+      CurrentHealth: 0
+      MaxHealth: 0
       AttackDamage: 1
+      battlePrefab: {fileID: 0}
 --- !u!212 &212141663454571518
 SpriteRenderer:
   m_ObjectHideFlags: 1

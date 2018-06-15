@@ -375,6 +375,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114811480438544078, guid: 0ad7b9f75db2f6c499ec0f38f2800f67,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].CurrentHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114811480438544078, guid: 0ad7b9f75db2f6c499ec0f38f2800f67,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].MaxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114811480438544078, guid: 0ad7b9f75db2f6c499ec0f38f2800f67,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].battlePrefab
+      value: 
+      objectReference: {fileID: 1800601572558412, guid: 5fa724dcb9b0eff4dbd4ea69d2ea6566,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0ad7b9f75db2f6c499ec0f38f2800f67, type: 2}
   m_IsPrefabParent: 0
@@ -476,6 +492,38 @@ Prefab:
       propertyPath: data.battleDataList.Array.data[1].AttackDamage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].CurrentHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].MaxHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[1].CurrentHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[1].MaxHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].battlePrefab
+      value: 
+      objectReference: {fileID: 1264264376490060, guid: 004df6532159c5d4aa788525180ab708,
+        type: 2}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[1].battlePrefab
+      value: 
+      objectReference: {fileID: 1264264376490060, guid: 004df6532159c5d4aa788525180ab708,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20cfe60f75481b345befe0193f69f3cf, type: 2}
   m_IsPrefabParent: 0
@@ -623,6 +671,22 @@ Prefab:
       propertyPath: data.id
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].CurrentHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].MaxHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
+        type: 2}
+      propertyPath: data.battleDataList.Array.data[0].battlePrefab
+      value: 
+      objectReference: {fileID: 1264264376490060, guid: 004df6532159c5d4aa788525180ab708,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20cfe60f75481b345befe0193f69f3cf, type: 2}
   m_IsPrefabParent: 0
