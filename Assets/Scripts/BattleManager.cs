@@ -184,7 +184,6 @@ public class BattleManager : MonoBehaviour {
     public void ShowEndBattleUI(bool success) {
         Debug.Log("ShowEndBattleUI> success? " + success);
 
-        battleUI.SetActive(false);
         endBattleUI.SetActive(true);
 
         StopCoroutine(HandleTurn());
