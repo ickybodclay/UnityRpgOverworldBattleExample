@@ -375,22 +375,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114811480438544078, guid: 0ad7b9f75db2f6c499ec0f38f2800f67,
-        type: 2}
-      propertyPath: data.battleDataList.Array.data[0].CurrentHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114811480438544078, guid: 0ad7b9f75db2f6c499ec0f38f2800f67,
-        type: 2}
-      propertyPath: data.battleDataList.Array.data[0].MaxHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114811480438544078, guid: 0ad7b9f75db2f6c499ec0f38f2800f67,
-        type: 2}
-      propertyPath: data.battleDataList.Array.data[0].battlePrefab
-      value: 
-      objectReference: {fileID: 1800601572558412, guid: 5fa724dcb9b0eff4dbd4ea69d2ea6566,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0ad7b9f75db2f6c499ec0f38f2800f67, type: 2}
   m_IsPrefabParent: 0

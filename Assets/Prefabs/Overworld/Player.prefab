@@ -62,7 +62,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61579236534952430
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -104,10 +104,11 @@ MonoBehaviour:
       Position: {x: 0, y: 0}
     battleDataList:
     - Name: BobRockhands
-      CurrentHealth: 0
-      MaxHealth: 0
+      CurrentHealth: 10
+      MaxHealth: 10
       AttackDamage: 1
-      battlePrefab: {fileID: 0}
+      battlePrefab: {fileID: 1800601572558412, guid: 5fa724dcb9b0eff4dbd4ea69d2ea6566,
+        type: 2}
 --- !u!212 &212141663454571518
 SpriteRenderer:
   m_ObjectHideFlags: 1
