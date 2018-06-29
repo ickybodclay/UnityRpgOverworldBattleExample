@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +25,9 @@ public class BattleManager : MonoBehaviour {
     public GameObject[] playerSlots;
     public GameObject[] enemySlots;
 
+    private BattleEntity[] playerEntities;
+    private BattleEntity[] enemyEntities;
+
     public void StartBattle(Player.Data playerData, Enemy.Data enemyData) {
         this.playerData = playerData;
         this.enemyData = enemyData;
@@ -37,6 +39,7 @@ public class BattleManager : MonoBehaviour {
 
     private void SetupUI() {
         int slotIndex = 0;
+        playerEntities = new BattleEntity[playerData.battleDataList.Count];
         foreach (BattleData data in playerData.battleDataList) {
             if (slotIndex >= playerSlots.Length) {
                 break;
@@ -46,11 +49,12 @@ public class BattleManager : MonoBehaviour {
             playerStatusBars[slotIndex].nameText.text = data.Name;
             playerStatusBars[slotIndex].SetHealthFillAmount((float) data.CurrentHealth / data.MaxHealth);
             playerSlots[slotIndex].SetActive(data.CurrentHealth > 0);
-            Instantiate(data.battlePrefab, playerSlots[slotIndex].transform);
+            playerEntities[slotIndex] = Instantiate(data.battlePrefab, playerSlots[slotIndex].transform).GetComponent<BattleEntity>();
             slotIndex++;
         }
 
         slotIndex = 0;
+        enemyEntities = new BattleEntity[enemyData.battleDataList.Count];
         foreach (BattleData data in enemyData.battleDataList) {
             if (slotIndex >= enemySlots.Length) {
                 break;
@@ -60,15 +64,19 @@ public class BattleManager : MonoBehaviour {
             enemyStatusBars[slotIndex].nameText.text = data.Name;
             enemyStatusBars[slotIndex].SetHealthFillAmount((float) data.CurrentHealth / data.MaxHealth);
             enemySlots[slotIndex].SetActive(data.CurrentHealth > 0);
-            Instantiate(data.battlePrefab, enemySlots[slotIndex].transform);
+            enemyEntities[slotIndex] = Instantiate(data.battlePrefab, enemySlots[slotIndex].transform).GetComponent<BattleEntity>();
             slotIndex++;
         }
     }
+
+    private int currentPlayerSlotIndex = 0;
+    private int currentEnemySlotIndex = 0;
 
     private IEnumerator HandleTurn() {
         if (isPlayerTurn) {
             interactPanel.SetActive(true);
 
+            currentPlayerSlotIndex = 0;
             foreach (BattleData player in playerData.battleDataList) {
                 if (player.CurrentHealth > 0) {
                     Debug.Log("HandleTurn> player " + player.Name);
@@ -77,11 +85,13 @@ public class BattleManager : MonoBehaviour {
                     currentPlayerBattleData = player;
                     yield return new WaitUntil(() => isCurrentTurnOver);
                 }
+                currentPlayerSlotIndex++;
             }
         }
         else {
             interactPanel.SetActive(false);
 
+            currentEnemySlotIndex = 0;
             foreach (BattleData enemy in enemyData.battleDataList) {
                 if (enemy.CurrentHealth > 0) {
                     Debug.Log("HandleTurn> enemy " + enemy.Name);
@@ -89,6 +99,7 @@ public class BattleManager : MonoBehaviour {
                     HandleEnemyTurn(enemy);
                     yield return new WaitUntil(() => isCurrentTurnOver);
                 }
+                currentEnemySlotIndex++;
             }
         }
 
@@ -109,7 +120,8 @@ public class BattleManager : MonoBehaviour {
 
         UpdateEnemyStatusUI(targetEnemyId);
 
-        Invoke("EndTurn", 0.5f); // fake delay to handle lack of animation
+        playerEntities[currentPlayerSlotIndex].Attack();
+        enemyEntities[targetEnemyId].TakeDamage();
     }
 
     private void HandleEnemyTurn(BattleData enemy) {
@@ -125,7 +137,8 @@ public class BattleManager : MonoBehaviour {
 
         UpdatePlayerStatusUI(targetPlayerId);
 
-        Invoke("EndTurn", 0.5f); // fake delay to handle lack of animation
+        enemyEntities[currentEnemySlotIndex].Attack();
+        playerEntities[targetPlayerId].TakeDamage();
     }
 
     private void UpdateEnemyStatusUI(int targetEnemyId) {
@@ -138,7 +151,7 @@ public class BattleManager : MonoBehaviour {
         playerStatusBars[targetPlayerId].AnimateHeathFillAmount((float)playerData.battleDataList[targetPlayerId].CurrentHealth / playerData.battleDataList[targetPlayerId].MaxHealth);
     }
 
-    private void EndTurn() {
+    public void EndTurn() {
         isCurrentTurnOver = true;
 
         if (isPlayerTurn) {

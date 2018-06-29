@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     private bool hasBattleEnded = false;
 
     private SceneTransitionManager sceneTransitionManager;
+    private BattleManager battleManager;
 
     private void Awake () {
         if (!instantiated) {
@@ -36,7 +37,8 @@ public class GameManager : MonoBehaviour {
 
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
         Debug.Log("> OnLevelFinishedLoading scene=" + scene.name + " mode=" + mode.ToString());
-        sceneTransitionManager = null; // ensure reference to previous scene transition manager is cleared
+        sceneTransitionManager = null; // ensure reference to previous scene manager is cleared
+        battleManager = null;
 
         if (scene.name == "Overworld") {
             LoadOverworld();
@@ -83,10 +85,15 @@ public class GameManager : MonoBehaviour {
         sceneTransitionManager = FindObjectOfType<SceneTransitionManager>();
 
         if (sceneTransitionManager == null) {
-            Debug.LogError("Scene Transition Manger missing from Current Overworld Scene");
+            Debug.LogError("Scene Transition Manger missing from Current Battle Scene");
         }
 
-        BattleManager battleManager = GameObject.FindObjectOfType<BattleManager>();
+        battleManager = FindObjectOfType<BattleManager>();
+
+        if (battleManager == null) {
+            Debug.LogError("Battle Manger missing from Current Battle Scene");
+        }
+
         battleManager.StartBattle(currentPlayerData, enemyDataDictionary[currentEnemyId]);
         sceneTransitionManager.FadeIn(() => Debug.Log("FadeIn Complete"));
     }
@@ -111,5 +118,9 @@ public class GameManager : MonoBehaviour {
         return enemyDataDictionary.ContainsKey(currentEnemyId) 
             ? enemyDataDictionary[currentEnemyId]
             : null;
+    }
+
+    public BattleManager GetBattleManager() {
+        return battleManager;
     }
 }
