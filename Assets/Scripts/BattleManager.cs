@@ -44,7 +44,7 @@ public class BattleManager : MonoBehaviour {
             Debug.Log("Spawning " + data.Name);
             playerStatusBars[slotIndex].gameObject.SetActive(true);
             playerStatusBars[slotIndex].nameText.text = data.Name;
-            playerStatusBars[slotIndex].healthBar.fillAmount = (float) data.CurrentHealth / data.MaxHealth;
+            playerStatusBars[slotIndex].SetHealthFillAmount((float) data.CurrentHealth / data.MaxHealth);
             playerSlots[slotIndex].SetActive(data.CurrentHealth > 0);
             Instantiate(data.battlePrefab, playerSlots[slotIndex].transform);
             slotIndex++;
@@ -58,7 +58,7 @@ public class BattleManager : MonoBehaviour {
             Debug.Log("Spawning " + data.Name);
             enemyStatusBars[slotIndex].gameObject.SetActive(true);
             enemyStatusBars[slotIndex].nameText.text = data.Name;
-            enemyStatusBars[slotIndex].healthBar.fillAmount = (float) data.CurrentHealth / data.MaxHealth;
+            enemyStatusBars[slotIndex].SetHealthFillAmount((float) data.CurrentHealth / data.MaxHealth);
             enemySlots[slotIndex].SetActive(data.CurrentHealth > 0);
             Instantiate(data.battlePrefab, enemySlots[slotIndex].transform);
             slotIndex++;
@@ -107,6 +107,8 @@ public class BattleManager : MonoBehaviour {
             " for " + currentPlayerBattleData.AttackDamage + " damage");
         enemyData.battleDataList[targetEnemyId].CurrentHealth -= currentPlayerBattleData.AttackDamage;
 
+        UpdateEnemyStatusUI(targetEnemyId);
+
         Invoke("EndTurn", 0.5f); // fake delay to handle lack of animation
     }
 
@@ -121,12 +123,22 @@ public class BattleManager : MonoBehaviour {
             " for " + enemy.AttackDamage + " damage");
         playerData.battleDataList[targetPlayerId].CurrentHealth -= enemy.AttackDamage;
 
+        UpdatePlayerStatusUI(targetPlayerId);
+
         Invoke("EndTurn", 0.5f); // fake delay to handle lack of animation
     }
 
-    private void EndTurn() {
-        UpdateUI();
+    private void UpdateEnemyStatusUI(int targetEnemyId) {
+        enemySlots[targetEnemyId].SetActive(enemyData.battleDataList[targetEnemyId].CurrentHealth > 0);
+        enemyStatusBars[targetEnemyId].AnimateHeathFillAmount((float)enemyData.battleDataList[targetEnemyId].CurrentHealth / enemyData.battleDataList[targetEnemyId].MaxHealth);
+    }
 
+    private void UpdatePlayerStatusUI(int targetPlayerId) {
+        playerSlots[targetPlayerId].SetActive(playerData.battleDataList[targetPlayerId].CurrentHealth > 0);
+        playerStatusBars[targetPlayerId].AnimateHeathFillAmount((float)playerData.battleDataList[targetPlayerId].CurrentHealth / playerData.battleDataList[targetPlayerId].MaxHealth);
+    }
+
+    private void EndTurn() {
         isCurrentTurnOver = true;
 
         if (isPlayerTurn) {
@@ -138,28 +150,6 @@ public class BattleManager : MonoBehaviour {
             if (AreAllPlayersDead()) {
                 ShowEndBattleUI(false);
             }
-        }
-    }
-
-    private void UpdateUI() {
-        int slotIndex = 0;
-        foreach (BattleData data in playerData.battleDataList) {
-            if (slotIndex >= playerSlots.Length) {
-                break;
-            }
-            playerSlots[slotIndex].SetActive(data.CurrentHealth > 0);
-            playerStatusBars[slotIndex].healthBar.fillAmount = (float) data.CurrentHealth / data.MaxHealth;
-            slotIndex++;
-        }
-
-        slotIndex = 0;
-        foreach (BattleData data in enemyData.battleDataList) {
-            if (slotIndex >= enemySlots.Length) {
-                break;
-            }
-            enemySlots[slotIndex].SetActive(data.CurrentHealth > 0);
-            enemyStatusBars[slotIndex].healthBar.fillAmount = (float) data.CurrentHealth / data.MaxHealth;
-            slotIndex++;
         }
     }
 
