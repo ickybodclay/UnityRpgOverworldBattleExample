@@ -18,15 +18,11 @@ public class SceneTransitionManager : MonoBehaviour {
                 fadeImage.fillAmount = Mathf.Lerp(fadeImage.fillAmount, currentFillAmount, Time.deltaTime * lerpSpeed);
             }
             else {
-                Invoke("TriggerHandler", 0.1f);
+                onFadeCompleteHandler();
                 isAnimating = false;
             }
         }
 	}
-
-    private void TriggerHandler() {
-        onFadeCompleteHandler();
-    }
 
     public void FadeOut(OnFadeComplete onFadeCompleteHandler) {
         fadeImage.enabled = true;
