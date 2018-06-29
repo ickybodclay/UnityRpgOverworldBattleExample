@@ -7,9 +7,10 @@ public class StatusBar : MonoBehaviour {
 
     private float currentFillAmount;
     private float lerpSpeed = 5f;
+    private static readonly float EPSILON = 0.0001f;
 
     private void Update() {
-        if (Mathf.Abs(currentFillAmount - healthBar.fillAmount) > float.Epsilon) {
+        if (Mathf.Abs(currentFillAmount - healthBar.fillAmount) > EPSILON) {
             healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentFillAmount, Time.deltaTime * lerpSpeed);
         }
     }

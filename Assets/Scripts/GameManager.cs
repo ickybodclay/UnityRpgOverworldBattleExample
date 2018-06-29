@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
 
     private bool hasBattleEnded = false;
 
+    private SceneTransitionManager sceneTransitionManager;
+
     private void Awake () {
         if (!instantiated) {
             Instance = this;
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour {
 
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
         Debug.Log("> OnLevelFinishedLoading scene=" + scene.name + " mode=" + mode.ToString());
+        sceneTransitionManager = null; // ensure reference to previous scene transition manager is cleared
+
         if (scene.name == "Overworld") {
             LoadOverworld();
         }
@@ -44,6 +48,11 @@ public class GameManager : MonoBehaviour {
 
     private void LoadOverworld() {
         Debug.Log(">> Loading Overworld...");
+        sceneTransitionManager = FindObjectOfType<SceneTransitionManager>();
+
+        if (sceneTransitionManager == null) {
+            Debug.LogError("Scene Transition Manger missing from Current Overworld Scene");
+        }
 
         Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
         if (enemies != null) {
@@ -57,6 +66,9 @@ public class GameManager : MonoBehaviour {
 
         if (hasBattleEnded) {
             Debug.Log(">>> Restoring Overworld State After Battle...");
+
+            sceneTransitionManager.FadeIn(() => Debug.Log("FadeIn Complete"));
+
             Player player = GameObject.FindObjectOfType<Player>();
             if (player != null) {
                 player.LoadData(currentPlayerData);
@@ -68,20 +80,27 @@ public class GameManager : MonoBehaviour {
 
     private void LoadBattle() {
         Debug.Log(">> Loading Battle...");
+        sceneTransitionManager = FindObjectOfType<SceneTransitionManager>();
+
+        if (sceneTransitionManager == null) {
+            Debug.LogError("Scene Transition Manger missing from Current Overworld Scene");
+        }
+
         BattleManager battleManager = GameObject.FindObjectOfType<BattleManager>();
         battleManager.StartBattle(currentPlayerData, enemyDataDictionary[currentEnemyId]);
+        sceneTransitionManager.FadeIn(() => Debug.Log("FadeIn Complete"));
     }
 
     public void StartBattle(Player.Data playerData, Enemy.Data enemyData) {
         currentPlayerData = playerData;
         currentEnemyId = enemyData.id;
         enemyDataDictionary[currentEnemyId] = enemyData;
-        SceneManager.LoadScene("Battle");
+        sceneTransitionManager.FadeOut(() => SceneManager.LoadScene("Battle"));
     }
     
     public void EndBattle() {
         hasBattleEnded = true;
-        SceneManager.LoadScene("Overworld");
+        sceneTransitionManager.FadeOut(() => SceneManager.LoadScene("Overworld"));
     }
 
     public Player.Data GetPlayerData() {
