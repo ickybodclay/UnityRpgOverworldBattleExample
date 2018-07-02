@@ -20,6 +20,7 @@ public class BattleManager : MonoBehaviour {
     public Text nameText;
     public Button attackButton;
     public GameObject endBattleUI;
+    public GameObject battleCursor;
 
     [Header("Battlefield Positions")]
     public GameObject[] playerSlots;
@@ -74,12 +75,13 @@ public class BattleManager : MonoBehaviour {
 
     private IEnumerator HandleTurn() {
         if (isPlayerTurn) {
-            interactPanel.SetActive(true);
+            currentState = InputState.START;
 
             currentPlayerSlotIndex = 0;
             foreach (BattleData player in playerData.battleDataList) {
                 if (player.CurrentHealth > 0) {
                     Debug.Log("HandleTurn> player " + player.Name);
+                    interactPanel.SetActive(true);
                     isCurrentTurnOver = false;
                     nameText.text = player.Name;
                     currentPlayerBattleData = player;
@@ -90,6 +92,7 @@ public class BattleManager : MonoBehaviour {
         }
         else {
             interactPanel.SetActive(false);
+            currentState = InputState.WAIT;
 
             currentEnemySlotIndex = 0;
             foreach (BattleData enemy in enemyData.battleDataList) {
@@ -107,26 +110,86 @@ public class BattleManager : MonoBehaviour {
         StartCoroutine(HandleTurn());
     }
 
-    public void HandleAttackClicked() {
-        int targetEnemyId = Random.Range(0, enemyData.battleDataList.Count);
+    enum InputState {
+        START,
+        ATTACK,
+        WAIT
+    }
+    private InputState currentState;
+    private int battleCursorPosition;
 
-        while (enemyData.battleDataList[targetEnemyId].CurrentHealth <= 0) {
-            targetEnemyId = Random.Range(0, enemyData.battleDataList.Count);
+    public void HandleAttackClicked() {
+        currentState = InputState.ATTACK;
+
+        battleCursorPosition = 0;
+        battleCursor.transform.position = enemySlots[battleCursorPosition].transform.position + (Vector3.right * 1.5f);
+        battleCursor.SetActive(true);
+        interactPanel.SetActive(false);
+    }
+
+    private void HandleTargetSelected(int targetId) {
+        switch (currentState) {
+            case InputState.ATTACK:
+                Debug.Log(currentPlayerBattleData.Name + " attacking " + enemyData.battleDataList[targetId].Name +
+                    " for " + currentPlayerBattleData.AttackDamage + " damage");
+                enemyData.battleDataList[targetId].CurrentHealth -= currentPlayerBattleData.AttackDamage;
+
+                UpdateEnemyStatusUI(targetId);
+
+                playerEntities[currentPlayerSlotIndex].Attack();
+                enemyEntities[targetId].TakeDamage();
+                break;
         }
 
-        Debug.Log(currentPlayerBattleData.Name + " attacking " + enemyData.battleDataList[targetEnemyId].Name + 
-            " for " + currentPlayerBattleData.AttackDamage + " damage");
-        enemyData.battleDataList[targetEnemyId].CurrentHealth -= currentPlayerBattleData.AttackDamage;
+        currentState = InputState.START;
+        battleCursor.SetActive(false);
+    }
 
-        UpdateEnemyStatusUI(targetEnemyId);
+    private void Update() {
+        switch (currentState) {
+            case InputState.ATTACK:
+                HandleAttackInput();
+                break;
+        }
+    }
 
-        playerEntities[currentPlayerSlotIndex].Attack();
-        enemyEntities[targetEnemyId].TakeDamage();
+    private bool verticalButtonPressed = false;
+    private void HandleAttackInput() {
+        float y = Input.GetAxis("Vertical");
+        if (!verticalButtonPressed && Mathf.Abs(y) > float.Epsilon) {
+
+            battleCursorPosition = (battleCursorPosition + (int)-Mathf.Sign(y)) % enemyData.battleDataList.Count;
+            if (battleCursorPosition < 0) {
+                battleCursorPosition += enemyData.battleDataList.Count;
+            }
+
+            while (enemyData.battleDataList[battleCursorPosition].CurrentHealth <= 0) {
+                battleCursorPosition = (battleCursorPosition + 1) % enemyData.battleDataList.Count;
+            }
+
+            battleCursor.transform.position = enemySlots[battleCursorPosition].transform.position + (Vector3.right * 1.5f);
+
+            verticalButtonPressed = true;
+            // TODO play sfx
+        }
+
+        if (Mathf.Abs(y) <= float.Epsilon) {
+            verticalButtonPressed = false;
+        }
+
+        if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Submit")) {
+            HandleTargetSelected(battleCursorPosition);
+        }
+
+        if (Input.GetButtonDown("Cancel")) {
+            currentState = InputState.START;
+            battleCursor.SetActive(false);
+            interactPanel.SetActive(true);
+        }
     }
 
     private void HandleEnemyTurn(BattleData enemy) {
         int targetPlayerId = Random.Range(0, playerData.battleDataList.Count);
-
         while (playerData.battleDataList[targetPlayerId].CurrentHealth <= 0) {
             targetPlayerId = Random.Range(0, playerData.battleDataList.Count);
         }
@@ -187,9 +250,10 @@ public class BattleManager : MonoBehaviour {
     public void ShowEndBattleUI(bool success) {
         Debug.Log("ShowEndBattleUI> success? " + success);
 
-        endBattleUI.SetActive(true);
+        StopAllCoroutines();
 
-        StopCoroutine(HandleTurn());
+        endBattleUI.SetActive(true);
+        interactPanel.SetActive(false);
     }
 
     public void EndBattle() {

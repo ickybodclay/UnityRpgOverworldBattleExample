@@ -459,12 +459,12 @@ Prefab:
     - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
         type: 2}
       propertyPath: data.battleDataList.Array.data[0].Name
-      value: AngryTowel1
+      value: AngryTowel
       objectReference: {fileID: 0}
     - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
         type: 2}
       propertyPath: data.battleDataList.Array.data[1].Name
-      value: AngryTowel2
+      value: AngrierTowel
       objectReference: {fileID: 0}
     - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
         type: 2}
@@ -489,12 +489,12 @@ Prefab:
     - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
         type: 2}
       propertyPath: data.battleDataList.Array.data[1].CurrentHealth
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
         type: 2}
       propertyPath: data.battleDataList.Array.data[1].MaxHealth
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114179612083021522, guid: 20cfe60f75481b345befe0193f69f3cf,
         type: 2}
